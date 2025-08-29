@@ -14,7 +14,7 @@ A simple, modern ToDo application built with React and Tailwind CSS. Perfect for
 - ✅ **Responsive Design** - Works on all devices
 - ✅ **Modern UI** - Clean design with Tailwind CSS
 
-## 📸 Screenshots
+## 📸 Wireframe
 
 ```
 ┌─────────────────────────────────┐
