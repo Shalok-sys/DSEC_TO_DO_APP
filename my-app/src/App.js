@@ -167,7 +167,7 @@ export default function App() {
   return (
     <div className="max-w-2xl mx-auto p-6 bg-gray-50 min-h-screen">
       <header className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-800 mb-4">My Todo App</h1>
+        <h1 className="text-4xl font-bold text-gray-800 mb-4">My Awesome Todo App (Test)</h1>
         <div className="flex justify-center gap-6 text-sm text-gray-600">
           <span className="bg-white px-3 py-1 rounded-full shadow-sm">
             <strong>Total:</strong> {totalTodos}
