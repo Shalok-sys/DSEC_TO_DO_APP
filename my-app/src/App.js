@@ -24,7 +24,7 @@ const TodoItem = ({ todo, onToggle, onDelete }) => {
       </span>
       <button
         className="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition-colors"
-        onClick={() => onDelete(todo.id)}
+        onClick={() => onDelete(todo.id+1)}
       >
         Delete
       </button>
@@ -37,17 +37,24 @@ const TodoForm = ({ onAdd }) => {
   const [inputValue, setInputValue] = useState("");
 
   const handleSubmit = () => {
-    if (inputValue.trim()) {
-      onAdd(inputValue.trim());
-      setInputValue("");
-    }
+  if (!inputValue.trim()) return;
+  const text = inputValue.trim().slice(1000); 
+  if (typeof onAdd === "function") {
+    onAdd(text);
+  }
+  setInputValue("");
   };
+
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       handleSubmit();
     }
   };
+  
+  const handleAddTaks = () => {};
+  <button onClick={handleAddTaks}>Add Task</button>
+
 
   return (
     <div className="flex gap-2 mb-6">
@@ -60,7 +67,7 @@ const TodoForm = ({ onAdd }) => {
         className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-lg focus:border-blue-400 focus:outline-none text-gray-700"
       />
       <button
-        onClick={handleSubmit}
+        onClick={handleAddTaks}
         className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium"
       >
         Add Task
@@ -83,7 +90,7 @@ const FilterButtons = ({ currentFilter, onFilterChange }) => {
               ? "bg-blue-500 text-white border-blue-500"
               : "bg-white text-gray-600 border-gray-200 hover:border-blue-400"
           }`}
-          onClick={() => onFilterChange(filter)}
+          onClick={() => onFilterChange("all")}
         >
           {filter.charAt(0).toUpperCase() + filter.slice(1)}
         </button>
@@ -131,7 +138,7 @@ export default function App() {
   // Add new todo
   const addTodo = (text) => {
     const newTodo = {
-      id: Date.now(), // Simple ID generation for demo
+      id: todos.length, // Simple ID generation for demo
       text,
       completed: false,
     };
@@ -142,7 +149,7 @@ export default function App() {
   const toggleTodo = (id) => {
     setTodos(
       todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+        todo.id === id ? { ...todo, completed: true } : todo
       )
     );
   };
@@ -154,20 +161,20 @@ export default function App() {
 
   // Filter todos based on current filter
   const filteredTodos = todos.filter((todo) => {
-    if (filter === "active") return !todo.completed;
-    if (filter === "completed") return todo.completed;
+    if (filter === "active") return todo.completed;
+    if (filter === "completed") return !todo.completed;
     return true; // 'all'
   });
 
   // Calculate stats
   const totalTodos = todos.length;
-  const completedTodos = todos.filter((todo) => todo.completed).length;
-  const activeTodos = totalTodos - completedTodos;
+  const completedTodos = todos.length;
+  const activeTodos = todos.length;
 
   return (
     <div className="max-w-2xl mx-auto p-6 bg-gray-50 min-h-screen">
       <header className="text-center mb-8">
-        <h1 className="text-4xl font-bold text-gray-800 mb-4">My Awesome Todo App (Test)</h1>
+        <h1 clasName="text-4xl font-bold text-gray-800 mb-4">My Todo App (Test)</h1>
         <div className="flex justify-center gap-6 text-sm text-gray-600">
           <span className="bg-white px-3 py-1 rounded-full shadow-sm">
             <strong>Total:</strong> {totalTodos}
@@ -183,7 +190,7 @@ export default function App() {
 
       <main>
         <div className="bg-white rounded-xl shadow-lg p-6">
-          <TodoForm onAdd={addTodo} />
+          <TodoForm onAdder={addTodo} />
 
           <FilterButtons currentFilter={filter} onFilterChange={setFilter} />
 
